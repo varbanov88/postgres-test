@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgresTest", "PostgresTest\PostgresTest.csproj", "{833BBCF0-AAEC-4D13-840B-3D830D801F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epra.Data", "Epra.Data\Epra.Data.csproj", "{54B4DD1E-DFA6-4882-A8DA-E4911B1928AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{833BBCF0-AAEC-4D13-840B-3D830D801F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{833BBCF0-AAEC-4D13-840B-3D830D801F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{833BBCF0-AAEC-4D13-840B-3D830D801F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{833BBCF0-AAEC-4D13-840B-3D830D801F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B4DD1E-DFA6-4882-A8DA-E4911B1928AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B4DD1E-DFA6-4882-A8DA-E4911B1928AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B4DD1E-DFA6-4882-A8DA-E4911B1928AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B4DD1E-DFA6-4882-A8DA-E4911B1928AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B6B1095-BAF9-41E7-A01B-942C3836CDD2}
+	EndGlobalSection
+EndGlobal
