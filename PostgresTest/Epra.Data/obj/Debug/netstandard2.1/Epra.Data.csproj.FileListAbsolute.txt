@@ -1,9 +1,8 @@
-C:\Users\user\source\repos\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.deps.json
-C:\Users\user\source\repos\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.dll
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.csprojAssemblyReference.cache
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.AssemblyInfoInputs.cache
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.AssemblyInfo.cs
-C:\Users\user\source\repos\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.pdb
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.dll
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.pdb
-C:\Users\user\source\repos\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.csproj.CoreCompileInputs.cache
+D:\postgres-test\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.deps.json
+D:\postgres-test\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.dll
+D:\postgres-test\PostgresTest\Epra.Data\bin\Debug\netstandard2.1\Epra.Data.pdb
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.AssemblyInfoInputs.cache
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.AssemblyInfo.cs
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.dll
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.pdb
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.csprojAssemblyReference.cache

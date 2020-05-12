@@ -10,14 +10,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20200511132315_initial")]
+    [Migration("20200512105208_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -27,7 +27,7 @@ namespace Epra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -36,7 +36,7 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("addresses");
                 });
 
             modelBuilder.Entity("Epra.Data.Company", b =>
@@ -45,7 +45,77 @@ namespace Epra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnName("address_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CompanyTypeId")
+                        .HasColumnName("company_type_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Info")
+                        .HasColumnName("info")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsMainMember")
+                        .HasColumnName("is_main_member")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MarketActivityId")
+                        .HasColumnName("market_activity_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MarketSecondSpecialty")
+                        .HasColumnName("market_second_specialty")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("MemberIndex")
+                        .HasColumnName("member_index")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("MembershipId")
+                        .HasColumnName("membership_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SearchName")
+                        .HasColumnName("search_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UniqueStockCode")
+                        .HasColumnName("unique_stock_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Website")
+                        .HasColumnName("website")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("CompanyTypeId");
+
+                    b.HasIndex("MarketActivityId");
+
+                    b.HasIndex("MembershipId");
+
+                    b.ToTable("companies");
+                });
+
+            modelBuilder.Entity("Epra.Data.CompanyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -54,7 +124,10 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("company_types");
                 });
 
             modelBuilder.Entity("Epra.Data.Contact", b =>
@@ -63,13 +136,14 @@ namespace Epra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<int?>("AddressId")
                         .HasColumnName("address_id")
                         .HasColumnType("integer");
 
                     b.Property<int?>("AssistantId")
+                        .HasColumnName("assistant_id")
                         .HasColumnType("integer");
 
                     b.Property<int>("CompanyId")
@@ -131,10 +205,9 @@ namespace Epra.Data.Migrations
                         .HasColumnName("title_external")
                         .HasColumnType("text");
 
-                    b.Property<string>("TitleInternal")
-                        .IsRequired()
-                        .HasColumnName("title_internal")
-                        .HasColumnType("text");
+                    b.Property<int>("TitleInternalId")
+                        .HasColumnName("title_internal_id")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -144,7 +217,45 @@ namespace Epra.Data.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Contacts");
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("TitleInternalId");
+
+                    b.ToTable("contacts");
+                });
+
+            modelBuilder.Entity("Epra.Data.MarketActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("market_activities");
+                });
+
+            modelBuilder.Entity("Epra.Data.Membership", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("memberships");
                 });
 
             modelBuilder.Entity("Epra.Data.Role", b =>
@@ -153,7 +264,7 @@ namespace Epra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -166,7 +277,28 @@ namespace Epra.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("roles");
+                });
+
+            modelBuilder.Entity("Epra.Data.TitleInternal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("titles_internal");
                 });
 
             modelBuilder.Entity("Epra.Data.User", b =>
@@ -175,7 +307,7 @@ namespace Epra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -192,7 +324,7 @@ namespace Epra.Data.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Epra.Data.UserRoles", b =>
@@ -209,7 +341,30 @@ namespace Epra.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("user_roles");
+                });
+
+            modelBuilder.Entity("Epra.Data.Company", b =>
+                {
+                    b.HasOne("Epra.Data.Address", "Address")
+                        .WithMany("Companies")
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("Epra.Data.CompanyType", "CompanyType")
+                        .WithMany("Companies")
+                        .HasForeignKey("CompanyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Epra.Data.MarketActivity", "MarketActivity")
+                        .WithMany("Companies")
+                        .HasForeignKey("MarketActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Epra.Data.Membership", "Membership")
+                        .WithMany("Companies")
+                        .HasForeignKey("MembershipId");
                 });
 
             modelBuilder.Entity("Epra.Data.Contact", b =>
@@ -225,6 +380,12 @@ namespace Epra.Data.Migrations
                     b.HasOne("Epra.Data.Company", "Company")
                         .WithMany("Contacts")
                         .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Epra.Data.TitleInternal", "TitleInternal")
+                        .WithMany("Contacts")
+                        .HasForeignKey("TitleInternalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

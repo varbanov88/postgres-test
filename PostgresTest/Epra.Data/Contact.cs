@@ -34,9 +34,10 @@ namespace Epra.Data
         [Column("informal_name")]
         public string InformalName { get; set; }
 
-        [Column("title_internal")]
-        [Required]
-        public string TitleInternal { get; set; }
+        [Column("title_internal_id")]
+        public int TitleInternalId { get; set; }
+
+        public TitleInternal TitleInternal { get; set; }
 
         [Column("title_external")]
         public string TitleExternal { get; set; }
@@ -64,6 +65,8 @@ namespace Epra.Data
         public int? AddressId { get; set; }
 
         public Address Address { get; set; }
+
+        [Column("assistant_id")]
 
         public int? AssistantId { get; set; }
         public Contact Assistant { get; set; }
