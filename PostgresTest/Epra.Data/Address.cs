@@ -51,5 +51,6 @@ namespace Epra.Data
 
         public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
         public ICollection<Company> Companies { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }

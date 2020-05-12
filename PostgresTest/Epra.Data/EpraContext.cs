@@ -21,6 +21,12 @@ namespace Epra.Data
         public DbSet<MarketActivity> market_activities { get; set; }
         public DbSet<Membership> memberships { get; set; }
         public DbSet<Country> counties { get; set; }
+        public DbSet<MembershipType> membership_types { get; set; }
+        public DbSet<Product> products { get; set; }
+        public DbSet<ProductCode> product_codes { get; set; }
+        public DbSet<Invoice> invoices { get; set; }
+        public DbSet<InvoiceStatus> invoice_statuses { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Host=18.184.132.169;Port=5430;Database=backend_test_design;Username=postgres;Password=postgrestest",
@@ -57,13 +63,20 @@ namespace Epra.Data
                 .HasMany(c => c.Bosses)
                 .WithOne(b => b.Assistant)
                 .HasForeignKey(b => b.AssistantId);
+            builder.Entity<Contact>()
+                .HasMany(c => c.Invoices)
+                .WithOne(i => i.Contact)
+                .HasForeignKey(i => i.ContactId);
             #endregion
             #region Company
             builder.Entity<Company>()
                 .HasMany(c => c.Contacts)
                 .WithOne(c => c.Company)
                 .HasForeignKey(c => c.CompanyId);
-
+            builder.Entity<Company>()
+                .HasMany(c => c.Invoices)
+                .WithOne(i => i.Company)
+                .HasForeignKey(i => i.CompanyId);
             builder.Entity<CompanyType>()
                 .HasIndex(c => c.Name).IsUnique();
 
@@ -91,6 +104,10 @@ namespace Epra.Data
                 .HasMany(a => a.Companies)
                 .WithOne(c => c.Address)
                 .HasForeignKey(a => a.AddressId);
+            builder.Entity<Address>()
+                .HasMany(a => a.Invoices)
+                .WithOne(i => i.Address)
+                .HasForeignKey(i => i.AddressId);
             #endregion
             #region TitleInternal
             builder.Entity<TitleInternal>()
@@ -115,8 +132,68 @@ namespace Epra.Data
                 .HasMany(m => m.Companies)
                 .WithOne(c => c.Membership)
                 .HasForeignKey(c => c.MembershipId);
+
+            builder.Entity<Membership>()
+                .HasMany(m => m.Invoices)
+                .WithOne(i => i.Membership)
+                .HasForeignKey(i => i.MemberShipId);
+            #endregion
+            #region MembershipType
+
+            builder.Entity<MembershipType>()
+                .HasIndex(m => m.Name).IsUnique();
+
+            builder.Entity<MembershipType>()
+                .HasMany(m => m.Memberships)
+                .WithOne(m => m.MembershipType)
+                .HasForeignKey(m => m.MemberShipTypeId);
+            #endregion
+            #region Product
+            builder.Entity<Product>()
+                .HasIndex(p => p.Name).IsUnique();
+            builder.Entity<Product>()
+                .HasMany(p => p.Invoices)
+                .WithOne(i => i.Product)
+                .HasForeignKey(i => i.ProductId);
+            #endregion
+            #region ProducCodes
+            builder.Entity<ProductCode>()
+                .HasIndex(pc => pc.Name).IsUnique();
+            builder.Entity<ProductCode>()
+                .HasMany(pc => pc.Products)
+                .WithOne(p => p.ProductCode)
+                .HasForeignKey(p => p.ProductCodeId);
+
+            builder.Entity<ProductCode>()
+                .HasMany(pc => pc.SecondProducts)
+                .WithOne(p => p.SecondProductCode)
+                .HasForeignKey(p => p.SecondProductCodeId);
+
+            builder.Entity<ProductCode>()
+                .HasMany(pc => pc.Invoices)
+                .WithOne(i => i.ProductCode)
+                .HasForeignKey(i => i.ProductCodeId);
+
             #endregion
 
+            #region InvoiceStatus
+
+            builder.Entity<InvoiceStatus>()
+                .HasIndex(i => i.Name).IsUnique();
+
+            builder.Entity<InvoiceStatus>()
+                .HasMany(i => i.Invoices)
+                .WithOne(i => i.InvoiceStatus)
+                .HasForeignKey(i => i.InvoiceStatusId);
+            #endregion
+
+            #region Invoice
+
+            builder.Entity<Invoice>()
+                .HasIndex(i => i.InvoiceNumber).IsUnique();
+            
+
+            #endregion
             base.OnModelCreating(builder);
         }
     }
