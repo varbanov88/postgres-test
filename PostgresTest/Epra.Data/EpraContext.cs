@@ -77,6 +77,10 @@ namespace Epra.Data
                 .HasMany(c => c.Invoices)
                 .WithOne(i => i.Company)
                 .HasForeignKey(i => i.CompanyId);
+            builder.Entity<Company>()
+                .HasMany(c => c.Addresses)
+                .WithOne(a => a.Company)
+                .HasForeignKey(a => a.CompanyId);
             builder.Entity<CompanyType>()
                 .HasIndex(c => c.Name).IsUnique();
 
@@ -99,11 +103,6 @@ namespace Epra.Data
                 .HasMany(a => a.Contacts)
                 .WithOne(c => c.Address)
                 .HasForeignKey(c => c.AddressId);
-
-            builder.Entity<Address>()
-                .HasMany(a => a.Companies)
-                .WithOne(c => c.Address)
-                .HasForeignKey(a => a.AddressId);
             builder.Entity<Address>()
                 .HasMany(a => a.Invoices)
                 .WithOne(i => i.Address)

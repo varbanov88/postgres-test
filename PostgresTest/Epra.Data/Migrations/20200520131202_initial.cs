@@ -130,36 +130,6 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "addresses",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name = table.Column<string>(nullable: false),
-                    street = table.Column<string>(nullable: false),
-                    city = table.Column<string>(nullable: false),
-                    country_id = table.Column<int>(nullable: false),
-                    zip = table.Column<string>(maxLength: 20, nullable: true),
-                    vat_number = table.Column<string>(maxLength: 50, nullable: true),
-                    fax = table.Column<string>(maxLength: 50, nullable: true),
-                    phone = table.Column<string>(maxLength: 50, nullable: true),
-                    is_main = table.Column<bool>(nullable: false),
-                    is_nav = table.Column<bool>(nullable: false),
-                    is_website = table.Column<bool>(nullable: false),
-                    email = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_addresses", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_addresses_counties_country_id",
-                        column: x => x.country_id,
-                        principalTable: "counties",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "memberships",
                 columns: table => new
                 {
@@ -258,19 +228,12 @@ namespace Epra.Data.Migrations
                     website = table.Column<string>(nullable: true),
                     info = table.Column<string>(nullable: true),
                     unique_stock_code = table.Column<string>(nullable: true),
-                    address_id = table.Column<int>(nullable: true),
                     membership_id = table.Column<int>(nullable: true),
                     is_main_member = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_companies", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_companies_addresses_address_id",
-                        column: x => x.address_id,
-                        principalTable: "addresses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_companies_company_types_company_type_id",
                         column: x => x.company_type_id,
@@ -289,6 +252,43 @@ namespace Epra.Data.Migrations
                         principalTable: "memberships",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "addresses",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    name = table.Column<string>(nullable: false),
+                    street = table.Column<string>(nullable: false),
+                    city = table.Column<string>(nullable: false),
+                    country_id = table.Column<int>(nullable: false),
+                    zip = table.Column<string>(maxLength: 20, nullable: true),
+                    vat_number = table.Column<string>(maxLength: 50, nullable: true),
+                    fax = table.Column<string>(maxLength: 50, nullable: true),
+                    phone = table.Column<string>(maxLength: 50, nullable: true),
+                    is_main = table.Column<bool>(nullable: false),
+                    is_nav = table.Column<bool>(nullable: false),
+                    is_website = table.Column<bool>(nullable: false),
+                    email = table.Column<string>(nullable: true),
+                    company_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_addresses", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_addresses_companies_company_id",
+                        column: x => x.company_id,
+                        principalTable: "companies",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_addresses_counties_country_id",
+                        column: x => x.country_id,
+                        principalTable: "counties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -421,14 +421,14 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_addresses_company_id",
+                table: "addresses",
+                column: "company_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_addresses_country_id",
                 table: "addresses",
                 column: "country_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_companies_address_id",
-                table: "companies",
-                column: "address_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_companies_company_type_id",
@@ -617,7 +617,7 @@ namespace Epra.Data.Migrations
                 name: "users");
 
             migrationBuilder.DropTable(
-                name: "companies");
+                name: "addresses");
 
             migrationBuilder.DropTable(
                 name: "titles_internal");
@@ -626,7 +626,10 @@ namespace Epra.Data.Migrations
                 name: "product_codes");
 
             migrationBuilder.DropTable(
-                name: "addresses");
+                name: "companies");
+
+            migrationBuilder.DropTable(
+                name: "counties");
 
             migrationBuilder.DropTable(
                 name: "company_types");
@@ -636,9 +639,6 @@ namespace Epra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "memberships");
-
-            migrationBuilder.DropTable(
-                name: "counties");
 
             migrationBuilder.DropTable(
                 name: "membership_types");

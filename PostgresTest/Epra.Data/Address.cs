@@ -49,8 +49,12 @@ namespace Epra.Data
         [Column("email")]
         public string Email { get; set; }
 
+        [Column("company_id")]
+        public int CompanyId { get; set; }
+
+        public Company Company { get; set; }
+
         public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
-        public ICollection<Company> Companies { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
     }
 }

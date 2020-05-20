@@ -28,7 +28,7 @@ namespace PostgresTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<EpraContext>(options =>
+            services.AddDbContext<EpraContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("EpraContext")));
         }
 

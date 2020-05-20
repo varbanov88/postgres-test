@@ -42,11 +42,6 @@ namespace Epra.Data
         [Column("unique_stock_code")]
         public string UniqueStockCode { get; set; }
 
-        [Column("address_id")]
-        public int? AddressId { get; set; }
-
-        public Address Address { get; set; }
-
         [Column("membership_id")]
         public int? MembershipId { get; set; } 
 
@@ -54,6 +49,7 @@ namespace Epra.Data
 
         [Column("is_main_member")]
         public bool IsMainMember { get; set; }
+        public ICollection<Address> Addresses { get; set; }
         public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
         public ICollection<Invoice> Invoices { get; set; }
     }

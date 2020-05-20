@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20200512150450_initial")]
+    [Migration("20200520131202_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace Epra.Data.Migrations
                         .IsRequired()
                         .HasColumnName("city")
                         .HasColumnType("text");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnName("company_id")
+                        .HasColumnType("integer");
 
                     b.Property<int>("CountryId")
                         .HasColumnName("country_id")
@@ -86,6 +90,8 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("CountryId");
 
                     b.ToTable("addresses");
@@ -98,10 +104,6 @@ namespace Epra.Data.Migrations
                         .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnName("address_id")
-                        .HasColumnType("integer");
 
                     b.Property<int>("CompanyTypeId")
                         .HasColumnName("company_type_id")
@@ -149,8 +151,6 @@ namespace Epra.Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("CompanyTypeId");
 
@@ -715,6 +715,12 @@ namespace Epra.Data.Migrations
 
             modelBuilder.Entity("Epra.Data.Address", b =>
                 {
+                    b.HasOne("Epra.Data.Company", "Company")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Epra.Data.Country", "Country")
                         .WithMany("Addresses")
                         .HasForeignKey("CountryId")
@@ -724,10 +730,6 @@ namespace Epra.Data.Migrations
 
             modelBuilder.Entity("Epra.Data.Company", b =>
                 {
-                    b.HasOne("Epra.Data.Address", "Address")
-                        .WithMany("Companies")
-                        .HasForeignKey("AddressId");
-
                     b.HasOne("Epra.Data.CompanyType", "CompanyType")
                         .WithMany("Companies")
                         .HasForeignKey("CompanyTypeId")
