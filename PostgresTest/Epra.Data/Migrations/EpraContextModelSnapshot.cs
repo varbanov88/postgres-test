@@ -559,8 +559,8 @@ namespace Epra.Data.Migrations
 
                     b.Property<string>("SecondProductCode")
                         .HasColumnName("second_product_code")
-                        .HasColumnType("character varying(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
 
                     b.Property<decimal?>("Vat")
                         .HasColumnName("vat")

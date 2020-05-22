@@ -125,7 +125,7 @@ namespace Epra.Data.Migrations
                     price = table.Column<decimal>(nullable: false),
                     vat = table.Column<decimal>(nullable: true),
                     product_code_id = table.Column<int>(nullable: false),
-                    second_product_code = table.Column<string>(maxLength: 10, nullable: true),
+                    second_product_code = table.Column<string>(maxLength: 20, nullable: true),
                     email_subject = table.Column<string>(nullable: true),
                     email_banner = table.Column<byte[]>(nullable: true),
                     email_body = table.Column<string>(nullable: true),

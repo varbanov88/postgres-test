@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20200522115514_initial")]
+    [Migration("20200522134145_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -561,8 +561,8 @@ namespace Epra.Data.Migrations
 
                     b.Property<string>("SecondProductCode")
                         .HasColumnName("second_product_code")
-                        .HasColumnType("character varying(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
 
                     b.Property<decimal?>("Vat")
                         .HasColumnName("vat")
