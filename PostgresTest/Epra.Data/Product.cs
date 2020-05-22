@@ -26,7 +26,7 @@ namespace Epra.Data
         public ProductCode ProductCode { get; set; }
 
         [Column("second_product_code")]
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string SecondProductCode { get; set; }
 
         [Column("email_subject")]

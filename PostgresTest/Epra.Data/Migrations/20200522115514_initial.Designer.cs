@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20200522112234_initial")]
+    [Migration("20200522115514_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -545,9 +545,6 @@ namespace Epra.Data.Migrations
                         .HasColumnName("email_subject")
                         .HasColumnType("text");
 
-                    b.Property<int?>("MembershipId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
@@ -572,8 +569,6 @@ namespace Epra.Data.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MembershipId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -802,10 +797,6 @@ namespace Epra.Data.Migrations
 
             modelBuilder.Entity("Epra.Data.Product", b =>
                 {
-                    b.HasOne("Epra.Data.Membership", null)
-                        .WithMany("Products")
-                        .HasForeignKey("MembershipId");
-
                     b.HasOne("Epra.Data.ProductCode", "ProductCode")
                         .WithMany("Products")
                         .HasForeignKey("ProductCodeId")
