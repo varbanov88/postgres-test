@@ -17,7 +17,6 @@ namespace Epra.Data
         public string Name { get; set; }
 
         public ICollection<Product> Products { get; set; }
-        public ICollection<Product> SecondProducts { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
     }
 }

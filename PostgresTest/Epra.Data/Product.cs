@@ -25,10 +25,9 @@ namespace Epra.Data
 
         public ProductCode ProductCode { get; set; }
 
-        [Column("second_product_code_id")]
-        public int? SecondProductCodeId { get; set; }
-
-        public ProductCode SecondProductCode { get; set; }
+        [Column("second_product_code")]
+        [MaxLength(10)]
+        public string SecondProductCode { get; set; }
 
         [Column("email_subject")]
         public string EmailSubject { get; set; }
@@ -43,5 +42,7 @@ namespace Epra.Data
         public string BottomNotes { get; set; }
 
         public ICollection<Invoice> Invoices { get; set; }
+
+        public ICollection<Membership> Memberships { get; set; }
     }
 }

@@ -21,7 +21,6 @@ namespace Epra.Data
         public DbSet<MarketActivity> market_activities { get; set; }
         public DbSet<Membership> memberships { get; set; }
         public DbSet<Country> counties { get; set; }
-        public DbSet<MembershipType> membership_types { get; set; }
         public DbSet<Product> products { get; set; }
         public DbSet<ProductCode> product_codes { get; set; }
         public DbSet<Invoice> invoices { get; set; }
@@ -137,16 +136,6 @@ namespace Epra.Data
                 .WithOne(i => i.Membership)
                 .HasForeignKey(i => i.MemberShipId);
             #endregion
-            #region MembershipType
-
-            builder.Entity<MembershipType>()
-                .HasIndex(m => m.Name).IsUnique();
-
-            builder.Entity<MembershipType>()
-                .HasMany(m => m.Memberships)
-                .WithOne(m => m.MembershipType)
-                .HasForeignKey(m => m.MemberShipTypeId);
-            #endregion
             #region Product
             builder.Entity<Product>()
                 .HasIndex(p => p.Name).IsUnique();
@@ -154,6 +143,10 @@ namespace Epra.Data
                 .HasMany(p => p.Invoices)
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId);
+            builder.Entity<Product>()
+                .HasMany(p => p.Memberships)
+                .WithOne(m => m.Product)
+                .HasForeignKey(m => m.ProductId);
             #endregion
             #region ProducCodes
             builder.Entity<ProductCode>()
@@ -162,19 +155,12 @@ namespace Epra.Data
                 .HasMany(pc => pc.Products)
                 .WithOne(p => p.ProductCode)
                 .HasForeignKey(p => p.ProductCodeId);
-
-            builder.Entity<ProductCode>()
-                .HasMany(pc => pc.SecondProducts)
-                .WithOne(p => p.SecondProductCode)
-                .HasForeignKey(p => p.SecondProductCodeId);
-
             builder.Entity<ProductCode>()
                 .HasMany(pc => pc.Invoices)
                 .WithOne(i => i.ProductCode)
                 .HasForeignKey(i => i.ProductCodeId);
 
             #endregion
-
             #region InvoiceStatus
 
             builder.Entity<InvoiceStatus>()
@@ -185,7 +171,6 @@ namespace Epra.Data
                 .WithOne(i => i.InvoiceStatus)
                 .HasForeignKey(i => i.InvoiceStatusId);
             #endregion
-
             #region Invoice
 
             builder.Entity<Invoice>()

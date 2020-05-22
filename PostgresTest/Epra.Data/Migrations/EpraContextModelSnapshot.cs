@@ -491,14 +491,14 @@ namespace Epra.Data.Migrations
                         .HasColumnName("is_bad_debtor")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("MemberShipTypeId")
-                        .HasColumnName("membership_type_id")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("text");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnName("product_id")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("RenewableDate")
                         .HasColumnName("renewable_date")
@@ -514,35 +514,9 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberShipTypeId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("memberships");
-                });
-
-            modelBuilder.Entity("Epra.Data.MembershipType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<decimal>("Price")
-                        .HasColumnName("price")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("membership_types");
                 });
 
             modelBuilder.Entity("Epra.Data.Product", b =>
@@ -569,6 +543,9 @@ namespace Epra.Data.Migrations
                         .HasColumnName("email_subject")
                         .HasColumnType("text");
 
+                    b.Property<int?>("MembershipId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
@@ -583,9 +560,10 @@ namespace Epra.Data.Migrations
                         .HasColumnName("product_code_id")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SecondProductCodeId")
-                        .HasColumnName("second_product_code_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("SecondProductCode")
+                        .HasColumnName("second_product_code")
+                        .HasColumnType("character varying(10)")
+                        .HasMaxLength(10);
 
                     b.Property<decimal?>("Vat")
                         .HasColumnName("vat")
@@ -593,12 +571,12 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MembershipId");
+
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.HasIndex("ProductCodeId");
-
-                    b.HasIndex("SecondProductCodeId");
 
                     b.ToTable("products");
                 });
@@ -813,24 +791,24 @@ namespace Epra.Data.Migrations
 
             modelBuilder.Entity("Epra.Data.Membership", b =>
                 {
-                    b.HasOne("Epra.Data.MembershipType", "MembershipType")
+                    b.HasOne("Epra.Data.Product", "Product")
                         .WithMany("Memberships")
-                        .HasForeignKey("MemberShipTypeId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Epra.Data.Product", b =>
                 {
+                    b.HasOne("Epra.Data.Membership", null)
+                        .WithMany("Products")
+                        .HasForeignKey("MembershipId");
+
                     b.HasOne("Epra.Data.ProductCode", "ProductCode")
                         .WithMany("Products")
                         .HasForeignKey("ProductCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Epra.Data.ProductCode", "SecondProductCode")
-                        .WithMany("SecondProducts")
-                        .HasForeignKey("SecondProductCodeId");
                 });
 
             modelBuilder.Entity("Epra.Data.UserRoles", b =>

@@ -18,9 +18,7 @@ namespace Epra.Data
         [Column("is_bad_debtor")]
         public bool IsBadDebtor { get; set; }
 
-        [Column("membership_type_id")]
-        public int MemberShipTypeId { get; set; }
-
+        
         [Column("discount")]
         public decimal? Discount { get; set; }
 
@@ -40,9 +38,14 @@ namespace Epra.Data
         [Column("renewable_date")]
         public DateTime? RenewableDate { get; set; }
 
-        public MembershipType MembershipType { get; set; }
+        [Column("product_id")]
+
+        public int ProductId { get; set; }
+
+        public Product Product { get; set; }
 
         public ICollection<Company> Companies { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
