@@ -178,6 +178,16 @@ namespace Epra.Data
             
 
             #endregion
+            #region Region
+
+            builder.Entity<Region>()
+                .HasIndex(r => r.Name).IsUnique();
+
+            builder.Entity<Region>()
+                .HasMany(r => r.Countries)
+                .WithOne(c => c.Region)
+                .HasForeignKey(c => c.RegionId);
+            #endregion
             base.OnModelCreating(builder);
         }
     }

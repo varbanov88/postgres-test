@@ -22,21 +22,6 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "counties",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name = table.Column<string>(maxLength: 100, nullable: true),
-                    code = table.Column<string>(maxLength: 10, nullable: true),
-                    region = table.Column<string>(maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_counties", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "invoice_statuses",
                 columns: table => new
                 {
@@ -73,6 +58,19 @@ namespace Epra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_product_codes", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Region",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    name = table.Column<string>(maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Region", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +141,27 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "counties",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    name = table.Column<string>(maxLength: 100, nullable: false),
+                    code = table.Column<string>(maxLength: 10, nullable: true),
+                    region_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_counties", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_counties_Region_region_id",
+                        column: x => x.region_id,
+                        principalTable: "Region",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_roles",
                 columns: table => new
                 {
@@ -177,7 +196,7 @@ namespace Epra.Data.Migrations
                     discount = table.Column<decimal>(nullable: true),
                     total = table.Column<decimal>(nullable: false),
                     comment = table.Column<string>(nullable: true),
-                    start_date = table.Column<DateTime>(nullable: false),
+                    start_date = table.Column<DateTime>(nullable: true),
                     end_date = table.Column<DateTime>(nullable: true),
                     renewable_date = table.Column<DateTime>(nullable: true),
                     product_id = table.Column<int>(nullable: false)
@@ -464,6 +483,11 @@ namespace Epra.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_counties_region_id",
+                table: "counties",
+                column: "region_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_invoice_statuses_name",
                 table: "invoice_statuses",
                 column: "name",
@@ -539,6 +563,12 @@ namespace Epra.Data.Migrations
                 column: "product_code_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Region_name",
+                table: "Region",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_roles_name",
                 table: "roles",
                 column: "name",
@@ -602,6 +632,9 @@ namespace Epra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "memberships");
+
+            migrationBuilder.DropTable(
+                name: "Region");
 
             migrationBuilder.DropTable(
                 name: "products");

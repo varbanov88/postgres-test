@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20200522134145_initial")]
+    [Migration("20200527122359_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -291,19 +291,21 @@ namespace Epra.Data.Migrations
                         .HasMaxLength(10);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnName("name")
                         .HasColumnType("character varying(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Region")
-                        .HasColumnName("region")
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                    b.Property<int>("RegionId")
+                        .HasColumnName("region_id")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("RegionId");
 
                     b.ToTable("counties");
                 });
@@ -506,7 +508,7 @@ namespace Epra.Data.Migrations
                         .HasColumnName("renewable_date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnName("start_date")
                         .HasColumnType("timestamp without time zone");
 
@@ -598,6 +600,28 @@ namespace Epra.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("product_codes");
+                });
+
+            modelBuilder.Entity("Epra.Data.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Region");
                 });
 
             modelBuilder.Entity("Epra.Data.Role", b =>
@@ -739,6 +763,15 @@ namespace Epra.Data.Migrations
                     b.HasOne("Epra.Data.TitleInternal", "TitleInternal")
                         .WithMany("Contacts")
                         .HasForeignKey("TitleInternalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Epra.Data.Country", b =>
+                {
+                    b.HasOne("Epra.Data.Region", "Region")
+                        .WithMany("Countries")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

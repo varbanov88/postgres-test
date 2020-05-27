@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Epra.Data
 {
@@ -12,6 +10,7 @@ namespace Epra.Data
         public int Id { get; set; }
 
         [Column("name")]
+        [Required]
         [MaxLength(100)]
         public string Name { get; set; }
 
@@ -19,9 +18,10 @@ namespace Epra.Data
         [MaxLength(10)]
         public string Code { get; set; }
 
-        [Column("region")]
-        [MaxLength(50)]
-        public string Region { get; set; }
+        [Column("region_id")]
+        public int RegionId { get; set; }
+
+        public Region Region { get; set; }
 
         public ICollection<Address> Addresses { get; set; }
     }

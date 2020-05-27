@@ -29,7 +29,6 @@ namespace Epra.Data
         public string Comment { get; set; }
 
         [Column("start_date")]
-        [Required]
         public DateTime? StartDate { get; set; }
 
         [Column("end_date")]
