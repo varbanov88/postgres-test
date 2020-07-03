@@ -25,6 +25,7 @@ namespace Epra.Data
         public DbSet<ProductCode> product_codes { get; set; }
         public DbSet<Invoice> invoices { get; set; }
         public DbSet<InvoiceStatus> invoice_statuses { get; set; }
+        public DbSet<Region> regions { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

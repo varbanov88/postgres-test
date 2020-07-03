@@ -23,6 +23,9 @@ namespace Epra.Data
         [Column("member_index")]
         public bool MemberIndex { get; set; }
 
+        [Column("online")]
+        public bool Online { get; set; }
+
         [Column("market_activity_id")]
         public int MarketActivityId { get; set; }
 
