@@ -141,7 +141,7 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "counties",
+                name: "countries",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
@@ -152,9 +152,9 @@ namespace Epra.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_counties", x => x.id);
+                    table.PrimaryKey("PK_countries", x => x.id);
                     table.ForeignKey(
-                        name: "FK_counties_regions_region_id",
+                        name: "FK_countries_regions_region_id",
                         column: x => x.region_id,
                         principalTable: "regions",
                         principalColumn: "id",
@@ -284,9 +284,9 @@ namespace Epra.Data.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_addresses_counties_country_id",
+                        name: "FK_addresses_countries_country_id",
                         column: x => x.country_id,
-                        principalTable: "counties",
+                        principalTable: "countries",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -297,7 +297,7 @@ namespace Epra.Data.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    email = table.Column<string>(nullable: false),
+                    email = table.Column<string>(nullable: true),
                     first_name = table.Column<string>(nullable: false),
                     middle_name = table.Column<string>(nullable: true),
                     last_name = table.Column<string>(nullable: false),
@@ -469,8 +469,7 @@ namespace Epra.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_contacts_email",
                 table: "contacts",
-                column: "email",
-                unique: true);
+                column: "email");
 
             migrationBuilder.CreateIndex(
                 name: "IX_contacts_title_internal_id",
@@ -478,14 +477,13 @@ namespace Epra.Data.Migrations
                 column: "title_internal_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_counties_name",
-                table: "counties",
-                column: "name",
-                unique: true);
+                name: "IX_countries_name",
+                table: "countries",
+                column: "name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_counties_region_id",
-                table: "counties",
+                name: "IX_countries_region_id",
+                table: "countries",
                 column: "region_id");
 
             migrationBuilder.CreateIndex(
@@ -623,7 +621,7 @@ namespace Epra.Data.Migrations
                 name: "companies");
 
             migrationBuilder.DropTable(
-                name: "counties");
+                name: "countries");
 
             migrationBuilder.DropTable(
                 name: "company_types");

@@ -20,7 +20,7 @@ namespace Epra.Data
         public DbSet<CompanyType> company_types { get; set; }
         public DbSet<MarketActivity> market_activities { get; set; }
         public DbSet<Membership> memberships { get; set; }
-        public DbSet<Country> counties { get; set; }
+        public DbSet<Country> countries { get; set; }
         public DbSet<Product> products { get; set; }
         public DbSet<ProductCode> product_codes { get; set; }
         public DbSet<Invoice> invoices { get; set; }
@@ -58,7 +58,7 @@ namespace Epra.Data
             #endregion
             #region Contact
             builder.Entity<Contact>()
-                .HasIndex(c => c.Email).IsUnique();
+                .HasIndex(c => c.Email);
             builder.Entity<Contact>()
                 .HasMany(c => c.Bosses)
                 .WithOne(b => b.Assistant)
@@ -92,7 +92,7 @@ namespace Epra.Data
             #endregion
             #region Country
             builder.Entity<Country>()
-                .HasIndex(c => c.Name).IsUnique();
+                .HasIndex(c => c.Name);
             builder.Entity<Country>()
                 .HasMany(c => c.Addresses)
                 .WithOne(a => a.Country)

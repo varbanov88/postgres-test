@@ -205,7 +205,6 @@ namespace Epra.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnName("email")
                         .HasColumnType("text");
 
@@ -271,8 +270,7 @@ namespace Epra.Data.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasIndex("Email");
 
                     b.HasIndex("TitleInternalId");
 
@@ -304,12 +302,11 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("Name");
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("counties");
+                    b.ToTable("countries");
                 });
 
             modelBuilder.Entity("Epra.Data.Invoice", b =>

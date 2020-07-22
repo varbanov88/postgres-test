@@ -9,9 +9,7 @@ namespace Epra.Data
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
         [Column("email")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
