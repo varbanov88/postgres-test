@@ -59,6 +59,11 @@ namespace Epra.Data
         public int CompanyId { get; set; }
         public Company Company { get; set; }
 
+        [Column("is_main")]
+        public bool IsMain{get;set;}
+        [Column("online")]
+        public bool Online { get; set; }
+
         [Column("address_id")]
         public int? AddressId { get; set; }
 

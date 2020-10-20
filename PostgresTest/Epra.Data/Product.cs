@@ -33,7 +33,7 @@ namespace Epra.Data
         public string EmailSubject { get; set; }
 
         [Column("email_banner")]
-        public byte[] EmailBanner { get; set; }
+        public string EmailBanner { get; set; }
 
         [Column("email_body")]
         public string EmailBody { get; set; }

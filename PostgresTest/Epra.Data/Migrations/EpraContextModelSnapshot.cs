@@ -221,6 +221,10 @@ namespace Epra.Data.Migrations
                         .HasColumnName("informal_name")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsMain")
+                        .HasColumnName("is_main")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnName("last_name")
@@ -237,6 +241,10 @@ namespace Epra.Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnName("notes")
                         .HasColumnType("text");
+
+                    b.Property<bool>("Online")
+                        .HasColumnName("online")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("PhoneDirect")
                         .HasColumnName("phone_direct")
@@ -534,9 +542,9 @@ namespace Epra.Data.Migrations
                         .HasColumnName("bottom_notes")
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("EmailBanner")
+                    b.Property<string>("EmailBanner")
                         .HasColumnName("email_banner")
-                        .HasColumnType("bytea");
+                        .HasColumnType("text");
 
                     b.Property<string>("EmailBody")
                         .HasColumnName("email_body")

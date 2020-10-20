@@ -40,3 +40,5 @@ D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.
 D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.csproj.CopyComplete
 D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.dll
 D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.pdb
+D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.csproj.CoreCompileInputs.cache
+D:\postgres-test\PostgresTest\PostgresTest\obj\Debug\netcoreapp3.1\PostgresTest.genruntimeconfig.cache

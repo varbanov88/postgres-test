@@ -6,3 +6,4 @@ D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.Assem
 D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.dll
 D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.pdb
 D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.csprojAssemblyReference.cache
+D:\postgres-test\PostgresTest\Epra.Data\obj\Debug\netstandard2.1\Epra.Data.csproj.CoreCompileInputs.cache
