@@ -213,6 +213,34 @@ namespace Epra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "comments",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    text = table.Column<string>(nullable: false),
+                    membership_id = table.Column<int>(nullable: false),
+                    author_id = table.Column<int>(nullable: false),
+                    date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_comments", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_comments_users_author_id",
+                        column: x => x.author_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_comments_memberships_membership_id",
+                        column: x => x.membership_id,
+                        principalTable: "memberships",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "companies",
                 columns: table => new
                 {
@@ -433,6 +461,16 @@ namespace Epra.Data.Migrations
                 column: "country_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_comments_author_id",
+                table: "comments",
+                column: "author_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_comments_membership_id",
+                table: "comments",
+                column: "membership_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_companies_company_type_id",
                 table: "companies",
                 column: "company_type_id");
@@ -595,6 +633,9 @@ namespace Epra.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "comments");
+
             migrationBuilder.DropTable(
                 name: "invoices");
 

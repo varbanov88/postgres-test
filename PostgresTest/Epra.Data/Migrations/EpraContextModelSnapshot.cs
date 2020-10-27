@@ -95,6 +95,40 @@ namespace Epra.Data.Migrations
                     b.ToTable("addresses");
                 });
 
+            modelBuilder.Entity("Epra.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnName("author_id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnName("date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("MembershipId")
+                        .HasColumnName("membership_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnName("text")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("MembershipId");
+
+                    b.ToTable("comments");
+                });
+
             modelBuilder.Entity("Epra.Data.Company", b =>
                 {
                     b.Property<int>("Id")
@@ -728,6 +762,21 @@ namespace Epra.Data.Migrations
                     b.HasOne("Epra.Data.Country", "Country")
                         .WithMany("Addresses")
                         .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Epra.Data.Comment", b =>
+                {
+                    b.HasOne("Epra.Data.User", "Author")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Epra.Data.Membership", "Membership")
+                        .WithMany("Comments")
+                        .HasForeignKey("MembershipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -17,6 +17,7 @@ namespace Epra.Data
         [Required]
         public string Password { get; set; }
 
-        public ICollection<UserRoles> Roles { get; set; } = new List<UserRoles>();
+        public ICollection<UserRoles> Roles { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

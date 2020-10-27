@@ -45,5 +45,6 @@ namespace Epra.Data
 
         public ICollection<Company> Companies { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

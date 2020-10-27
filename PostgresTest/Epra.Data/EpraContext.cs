@@ -26,6 +26,7 @@ namespace Epra.Data
         public DbSet<Invoice> invoices { get; set; }
         public DbSet<InvoiceStatus> invoice_statuses { get; set; }
         public DbSet<Region> regions { get; set; }
+        public DbSet<Comment> comments { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,6 +43,11 @@ namespace Epra.Data
                 .HasMany(u => u.Roles)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
+
+            builder.Entity<User>()
+                .HasMany(u => u.Comments)
+                .WithOne(c => c.Author)
+                .HasForeignKey(c => c.AuthorId);
             #endregion
             #region Role
             builder.Entity<UserRoles>()
@@ -136,6 +142,11 @@ namespace Epra.Data
                 .HasMany(m => m.Invoices)
                 .WithOne(i => i.Membership)
                 .HasForeignKey(i => i.MemberShipId);
+
+            builder.Entity<Membership>()
+                .HasMany(m => m.Comments)
+                .WithOne(c => c.Membership)
+                .HasForeignKey(c => c.MembershipId);
             #endregion
             #region Product
             builder.Entity<Product>()
