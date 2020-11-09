@@ -75,7 +75,5 @@ namespace Epra.Data
         public Contact Assistant { get; set; }
 
         public ICollection<Contact> Bosses { get; set; }
-
-        public ICollection<Invoice> Invoices { get; set; }
     }
 }

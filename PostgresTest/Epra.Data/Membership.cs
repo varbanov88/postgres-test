@@ -43,6 +43,11 @@ namespace Epra.Data
 
         public Product Product { get; set; }
 
+        [Column("last_invoice_id")]
+        public int? LastPaidInvoiceId { get; set; }
+
+        public Invoice LastPaidInvoice { get; set; }
+
         public ICollection<Company> Companies { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
         public ICollection<Comment> Comments { get; set; }

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Epra.Data.Migrations
 {
     [DbContext(typeof(EpraContext))]
-    [Migration("20201027125920_initial")]
+    [Migration("20201104083759_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -361,75 +361,62 @@ namespace Epra.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
-                    b.Property<int>("AddressId")
-                        .HasColumnName("address_id")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Booked")
-                        .HasColumnName("booked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("BottomNotes")
-                        .HasColumnName("bottom_notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnName("company_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ContactId")
-                        .HasColumnName("contact_id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("DateMailSent")
-                        .HasColumnName("date_mail_sent")
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnName("created_date")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DatePaid")
                         .HasColumnName("date_paid")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<decimal?>("DiscountPercent")
-                        .HasColumnName("discount_percent")
+                    b.Property<string>("DebitInvoiceNumber")
+                        .HasColumnName("debit_invoice_nr")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Details")
+                        .HasColumnName("details")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Discount")
+                        .HasColumnName("discount")
                         .HasColumnType("numeric");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnName("due_date")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("EmailExtra")
                         .HasColumnName("email_extra")
-                        .HasColumnType("character varying(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<DateTime>("InvoiceDate")
-                        .HasColumnName("invoice_date")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("InvoiceNumber")
-                        .HasColumnName("invoice_number")
                         .HasColumnType("text");
 
-                    b.Property<int>("InvoiceStatusId")
-                        .HasColumnName("invoice_status_id")
+                    b.Property<DateTime?>("EmailSentDate")
+                        .HasColumnName("email_sent_date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnName("debit_invoice_id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("InvoiceType")
-                        .HasColumnName("invoice_type")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsCredited")
-                        .HasColumnName("is_credited")
+                    b.Property<bool>("IsCredit")
+                        .HasColumnName("is_credit")
                         .HasColumnType("boolean");
 
                     b.Property<int?>("MemberShipId")
                         .HasColumnName("membership_id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Number")
+                        .HasColumnName("number")
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
+
                     b.Property<string>("PaymentVia")
                         .HasColumnName("payment_via")
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("text");
 
-                    b.Property<int>("ProductCodeId")
-                        .HasColumnName("product_code_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("PoNr")
+                        .HasColumnName("po_nr")
+                        .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnName("product_id")
@@ -439,36 +426,34 @@ namespace Epra.Data.Migrations
                         .HasColumnName("remarks")
                         .HasColumnType("text");
 
+                    b.Property<int>("StatusId")
+                        .HasColumnName("status_id")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Total")
                         .HasColumnName("total")
                         .HasColumnType("numeric");
+
+                    b.Property<string>("TotalInDifferentCurrency")
+                        .HasColumnName("total_in_different_currency")
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("Vat")
                         .HasColumnName("vat")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("VatComment")
-                        .HasColumnName("vat_comment")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("ContactId");
-
-                    b.HasIndex("InvoiceNumber")
-                        .IsUnique();
-
-                    b.HasIndex("InvoiceStatusId");
+                    b.HasIndex("InvoiceId");
 
                     b.HasIndex("MemberShipId");
 
-                    b.HasIndex("ProductCodeId");
+                    b.HasIndex("Number")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("invoices");
                 });
@@ -538,6 +523,10 @@ namespace Epra.Data.Migrations
                         .HasColumnName("is_bad_debtor")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("LastPaidInvoiceId")
+                        .HasColumnName("last_invoice_id")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
@@ -561,9 +550,33 @@ namespace Epra.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LastPaidInvoiceId");
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("memberships");
+                });
+
+            modelBuilder.Entity("Epra.Data.MembershipType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("membership_types");
                 });
 
             modelBuilder.Entity("Epra.Data.Product", b =>
@@ -590,6 +603,10 @@ namespace Epra.Data.Migrations
                         .HasColumnName("email_subject")
                         .HasColumnType("text");
 
+                    b.Property<int?>("MembershipTypeId")
+                        .HasColumnName("membership_type_id")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
@@ -604,16 +621,13 @@ namespace Epra.Data.Migrations
                         .HasColumnName("product_code_id")
                         .HasColumnType("integer");
 
-                    b.Property<string>("SecondProductCode")
-                        .HasColumnName("second_product_code")
-                        .HasColumnType("character varying(20)")
-                        .HasMaxLength(20);
-
                     b.Property<decimal?>("Vat")
                         .HasColumnName("vat")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MembershipTypeId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -779,7 +793,7 @@ namespace Epra.Data.Migrations
                     b.HasOne("Epra.Data.Membership", "Membership")
                         .WithMany("Comments")
                         .HasForeignKey("MembershipId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -799,7 +813,8 @@ namespace Epra.Data.Migrations
 
                     b.HasOne("Epra.Data.Membership", "Membership")
                         .WithMany("Companies")
-                        .HasForeignKey("MembershipId");
+                        .HasForeignKey("MembershipId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Epra.Data.Contact", b =>
@@ -836,58 +851,47 @@ namespace Epra.Data.Migrations
 
             modelBuilder.Entity("Epra.Data.Invoice", b =>
                 {
-                    b.HasOne("Epra.Data.Address", "Address")
-                        .WithMany("Invoices")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Epra.Data.Company", "Company")
-                        .WithMany("Invoices")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Epra.Data.Contact", "Contact")
-                        .WithMany("Invoices")
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Epra.Data.InvoiceStatus", "InvoiceStatus")
-                        .WithMany("Invoices")
-                        .HasForeignKey("InvoiceStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Epra.Data.Invoice", "DebitInvoice")
+                        .WithMany("CreditInvoices")
+                        .HasForeignKey("InvoiceId");
 
                     b.HasOne("Epra.Data.Membership", "Membership")
                         .WithMany("Invoices")
-                        .HasForeignKey("MemberShipId");
-
-                    b.HasOne("Epra.Data.ProductCode", "ProductCode")
-                        .WithMany("Invoices")
-                        .HasForeignKey("ProductCodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MemberShipId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Epra.Data.Product", "Product")
                         .WithMany("Invoices")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Epra.Data.InvoiceStatus", "Status")
+                        .WithMany("Invoices")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Epra.Data.Membership", b =>
                 {
+                    b.HasOne("Epra.Data.Invoice", "LastPaidInvoice")
+                        .WithMany("Memberships")
+                        .HasForeignKey("LastPaidInvoiceId");
+
                     b.HasOne("Epra.Data.Product", "Product")
                         .WithMany("Memberships")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Epra.Data.Product", b =>
                 {
+                    b.HasOne("Epra.Data.MembershipType", "MembershipType")
+                        .WithMany("Products")
+                        .HasForeignKey("MembershipTypeId");
+
                     b.HasOne("Epra.Data.ProductCode", "ProductCode")
                         .WithMany("Products")
                         .HasForeignKey("ProductCodeId")

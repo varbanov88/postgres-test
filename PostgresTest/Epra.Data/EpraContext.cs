@@ -27,6 +27,7 @@ namespace Epra.Data
         public DbSet<InvoiceStatus> invoice_statuses { get; set; }
         public DbSet<Region> regions { get; set; }
         public DbSet<Comment> comments { get; set; }
+        public DbSet<MembershipType> membership_types { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -69,20 +70,12 @@ namespace Epra.Data
                 .HasMany(c => c.Bosses)
                 .WithOne(b => b.Assistant)
                 .HasForeignKey(b => b.AssistantId);
-            builder.Entity<Contact>()
-                .HasMany(c => c.Invoices)
-                .WithOne(i => i.Contact)
-                .HasForeignKey(i => i.ContactId);
             #endregion
             #region Company
             builder.Entity<Company>()
                 .HasMany(c => c.Contacts)
                 .WithOne(c => c.Company)
                 .HasForeignKey(c => c.CompanyId);
-            builder.Entity<Company>()
-                .HasMany(c => c.Invoices)
-                .WithOne(i => i.Company)
-                .HasForeignKey(i => i.CompanyId);
             builder.Entity<Company>()
                 .HasMany(c => c.Addresses)
                 .WithOne(a => a.Company)
@@ -109,10 +102,6 @@ namespace Epra.Data
                 .HasMany(a => a.Contacts)
                 .WithOne(c => c.Address)
                 .HasForeignKey(c => c.AddressId);
-            builder.Entity<Address>()
-                .HasMany(a => a.Invoices)
-                .WithOne(i => i.Address)
-                .HasForeignKey(i => i.AddressId);
             #endregion
             #region TitleInternal
             builder.Entity<TitleInternal>()
@@ -136,29 +125,38 @@ namespace Epra.Data
             builder.Entity<Membership>()
                 .HasMany(m => m.Companies)
                 .WithOne(c => c.Membership)
-                .HasForeignKey(c => c.MembershipId);
+                .HasForeignKey(c => c.MembershipId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Membership>()
-                .HasMany(m => m.Invoices)
-                .WithOne(i => i.Membership)
-                .HasForeignKey(i => i.MemberShipId);
 
             builder.Entity<Membership>()
                 .HasMany(m => m.Comments)
                 .WithOne(c => c.Membership)
-                .HasForeignKey(c => c.MembershipId);
+                .HasForeignKey(c => c.MembershipId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Membership>()
+                .HasMany(m => m.Invoices)
+                .WithOne(i => i.Membership)
+                .HasForeignKey(i => i.MemberShipId)
+                .OnDelete(DeleteBehavior.Restrict);
             #endregion
             #region Product
             builder.Entity<Product>()
                 .HasIndex(p => p.Name).IsUnique();
+
             builder.Entity<Product>()
                 .HasMany(p => p.Invoices)
                 .WithOne(i => i.Product)
-                .HasForeignKey(i => i.ProductId);
+                .HasForeignKey(i => i.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Product>()
                 .HasMany(p => p.Memberships)
                 .WithOne(m => m.Product)
-                .HasForeignKey(m => m.ProductId);
+                .HasForeignKey(m => m.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
             #endregion
             #region ProducCodes
             builder.Entity<ProductCode>()
@@ -167,28 +165,30 @@ namespace Epra.Data
                 .HasMany(pc => pc.Products)
                 .WithOne(p => p.ProductCode)
                 .HasForeignKey(p => p.ProductCodeId);
-            builder.Entity<ProductCode>()
-                .HasMany(pc => pc.Invoices)
-                .WithOne(i => i.ProductCode)
-                .HasForeignKey(i => i.ProductCodeId);
 
             #endregion
             #region InvoiceStatus
 
             builder.Entity<InvoiceStatus>()
                 .HasIndex(i => i.Name).IsUnique();
-
             builder.Entity<InvoiceStatus>()
-                .HasMany(i => i.Invoices)
-                .WithOne(i => i.InvoiceStatus)
-                .HasForeignKey(i => i.InvoiceStatusId);
+                .HasMany(s => s.Invoices)
+                .WithOne(i => i.Status)
+                .HasForeignKey(i => i.StatusId);
             #endregion
             #region Invoice
+            builder.Entity<Invoice>()
+                .HasIndex(i => i.Number).IsUnique();
 
             builder.Entity<Invoice>()
-                .HasIndex(i => i.InvoiceNumber).IsUnique();
-            
+                .HasMany(i => i.Memberships)
+                .WithOne(m => m.LastPaidInvoice)
+                .HasForeignKey(m => m.LastPaidInvoiceId);
 
+            builder.Entity<Invoice>()
+                .HasMany(i => i.CreditInvoices)
+                .WithOne(ci => ci.DebitInvoice)
+                .HasForeignKey(ci => ci.InvoiceId);
             #endregion
             #region Region
 
@@ -200,6 +200,18 @@ namespace Epra.Data
                 .WithOne(c => c.Region)
                 .HasForeignKey(c => c.RegionId);
             #endregion
+            #region MembershipTypes
+
+            builder.Entity<MembershipType>()
+                .HasIndex(mt => mt.Name)
+                .IsUnique();
+
+            builder.Entity<MembershipType>()
+                .HasMany(m => m.Products)
+                .WithOne(p => p.MembershipType)
+                .HasForeignKey(p => p.MembershipTypeId);
+            #endregion
+
             base.OnModelCreating(builder);
         }
     }

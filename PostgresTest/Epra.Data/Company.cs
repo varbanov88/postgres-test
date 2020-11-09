@@ -54,6 +54,5 @@ namespace Epra.Data
         public bool IsMainMember { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
-        public ICollection<Invoice> Invoices { get; set; }
     }
 }
